@@ -21,7 +21,7 @@ import { app, server } from "./lib/socket.js";
 app.use(express.json({ limit: "10mb" })); // Middleware to parse JSON request bodies
 app.use(cookieParser()); // Middleware to parse cookies,this is needed to read the jwt token from cookies as we are storing the jwt token in cookies
 app.use(cors({
-  origin: 'http://localhost:5173', // Allow requests from this origin
+  origin: process.env.FRONTEND_URL, // Allow requests from this origin
   credentials: true, // Enable sending cookies with requests
 }));
 
