@@ -8,8 +8,8 @@ export const generateToken = (userId, res) => {
   res.cookie("jwt", token, {  //jwt is the name of the cookie where the token will be stored,token stored in the cookie and cookie is sent back to the client in the response
     maxAge: 7 * 24 * 60 * 60 * 1000, // MS
     httpOnly: true, // prevent XSS attacks cross-site scripting attacks
-    sameSite: "strict", // CSRF attacks cross-site request forgery attacks
-    secure: process.env.NODE_ENV !== "development",
+    sameSite: "none", // none because we are using cross-site cookies so that frontend and backend can be on different domains,if both deployed on same domain then we can use "lax" or "strict"
+    secure: true, // true because we are using HTTPS
   });
 
   return token;
