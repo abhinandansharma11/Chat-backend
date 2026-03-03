@@ -5,11 +5,14 @@ export const generateToken = (userId, res) => {
     expiresIn: "7d",
   });
 
+  const isDevelopment = process.env.NODE_ENV === "development";
+
   res.cookie("jwt", token, {  //jwt is the name of the cookie where the token will be stored,token stored in the cookie and cookie is sent back to the client in the response
     maxAge: 7 * 24 * 60 * 60 * 1000, // MS
     httpOnly: true, // prevent XSS attacks cross-site scripting attacks
-    sameSite: "none", // none because we are using cross-site cookies so that frontend and backend can be on different domains,if both deployed on same domain then we can use "lax" or "strict"
-    secure: true, // true because we are using HTTPS
+    sameSite: isDevelopment ? "lax" : "none", // lax for local development (HTTP), none for production (HTTPS)
+    secure: !isDevelopment, // false for localhost (HTTP), true for HTTPS
+    path: "/", // explicitly set path
   });
 
   return token;

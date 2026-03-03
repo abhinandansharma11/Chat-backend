@@ -23,6 +23,8 @@ app.use(cookieParser()); // Middleware to parse cookies,this is needed to read t
 app.use(cors({
   origin: process.env.FRONTEND_URL, // Allow requests from this origin
   credentials: true, // Enable sending cookies with requests
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type"],
 }));
 
 

@@ -77,7 +77,14 @@ export const login = async (req, res) => {
 
 export const logout = (req, res) => {
   try {
-    res.cookie("jwt", "", { maxAge: 0 }); // Set the cookie with an empty value and immediate expiration,here maxAge: 0 means the cookie will expire immediately
+    const isDevelopment = process.env.NODE_ENV === "development";
+    res.cookie("jwt", "", { 
+      maxAge: 0,
+      httpOnly: true,
+      sameSite: isDevelopment ? "lax" : "none",
+      secure: !isDevelopment,
+      path: "/", // explicitly set path to match generateToken
+    }); // Set the cookie with an empty value and immediate expiration,here maxAge: 0 means the cookie will expire immediately
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     console.log("Error in logout controller", error.message);
